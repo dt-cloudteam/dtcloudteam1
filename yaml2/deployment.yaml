@@ -40,13 +40,8 @@ metadata:
 spec:
   tls:
   - secretName: secret1
-    rules:
-  - host: dtcloudintern.com
-    http:
-      paths:
-      - pathType: ImplementationSpecific
-        backend:
-          service:
-            name: servis
-            port:
-              number: 60001
+  defaultBackend:
+    service:
+      name: "servis"
+      port:
+        number: 60001
