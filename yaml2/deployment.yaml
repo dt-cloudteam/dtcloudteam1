@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dtcloudteamnginx123123
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: products
+  template:
+    metadata:
+      labels:
+        app: products
+    spec:
+      containers:
+      - name: containername
+        image: "melihselamiurkmez/dtcloud:1.1"
+        env:
+        - name: "PORT"
+          value: "50001"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: servis
+spec:
+  type: NodePort
+  selector:
+    app: products
+  ports:
+  - name: my-first-port
+    protocol: TCP
+    port: 60001
+    targetPort: 50001
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingressname
+spec:
+  tls:
+  - secretName: secret1
+    rules:
+  - host: dtcloudintern.com
+    http:
+      paths:
+      - pathType: ImplementationSpecific
+        backend:
+          service:
+            name: servis
+            port:
+              number: 60001
